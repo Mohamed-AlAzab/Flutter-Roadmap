@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_app_bar.dart';
+import 'package:flutter_roadmap/presentation/widget/coustom_bottom_navigation_bar.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_button.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -152,7 +153,7 @@ class TopicScreen extends StatelessWidget {
                     text: 'Mark as Done',
                     color: Theme.of(context).colorScheme.onSurface,
                     textColor: Theme.of(context).colorScheme.surface,
-                    width: context.width * 0.35,
+                    width: context.width * 0.4,
                     height: 50,
                   ),
                 ],
@@ -161,6 +162,7 @@ class TopicScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: CoustomBottomNavigationBar(),
     );
   }
 }

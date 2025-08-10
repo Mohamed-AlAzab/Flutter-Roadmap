@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/constant/string.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_app_bar.dart';
+import 'package:flutter_roadmap/presentation/widget/coustom_bottom_navigation_bar.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_topics_card.dart';
 
 class TopicsScreen extends StatelessWidget {
@@ -61,6 +62,7 @@ class TopicsScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: CoustomBottomNavigationBar(),
     );
   }
 }

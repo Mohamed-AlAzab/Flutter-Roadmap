@@ -5,7 +5,7 @@ import 'package:flutter_roadmap/core/get_it/get_it.dart';
 import 'package:flutter_roadmap/core/theme/app_theme.dart';
 import 'package:flutter_roadmap/core/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/core/theme/domain/entity/theme_entity.dart';
-import 'package:flutter_roadmap/presentation/screen/main_screen.dart';
+import 'package:flutter_roadmap/presentation/screen/roadmap_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
               state.themeEntity?.themeType == ThemeType.dark,
             ),
             onGenerateRoute: appRouter.generateRouter,
-            home: MainScreen(),
+            home: RoadmapScreen(),
           );
         },
       ),

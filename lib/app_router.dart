@@ -4,6 +4,9 @@ import 'package:flutter_roadmap/presentation/screen/content_screen.dart';
 import 'package:flutter_roadmap/presentation/screen/forgot_password_screen.dart';
 import 'package:flutter_roadmap/presentation/screen/login_screen.dart';
 import 'package:flutter_roadmap/presentation/screen/main_screen.dart';
+import 'package:flutter_roadmap/presentation/screen/progress_screen.dart';
+import 'package:flutter_roadmap/presentation/screen/roadmap_screen.dart';
+import 'package:flutter_roadmap/presentation/screen/settings_screen.dart';
 import 'package:flutter_roadmap/presentation/screen/signin_screen.dart';
 import 'package:flutter_roadmap/presentation/screen/topic_screen.dart';
 import 'package:flutter_roadmap/presentation/screen/topics_screen.dart';
@@ -19,6 +22,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SigninScreen());
       case forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
+      case roadmapScreen:
+        return MaterialPageRoute(builder: (_) => RoadmapScreen());
+      case progressScreen:
+        return MaterialPageRoute(builder: (_) => ProgressScreen());
+      case settingScreen:
+        return MaterialPageRoute(builder: (_) => SettingsScreen());
       case contentScreen:
         return MaterialPageRoute(builder: (_) => ContentScreen());
       case topicsScreen:

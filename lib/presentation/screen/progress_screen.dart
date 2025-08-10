@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_app_bar.dart';
+import 'package:flutter_roadmap/presentation/widget/coustom_bottom_navigation_bar.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_progress_card.dart';
 
 class ProgressScreen extends StatelessWidget {
@@ -77,6 +78,7 @@ class ProgressScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: CoustomBottomNavigationBar(index: 1),
     );
   }
 }

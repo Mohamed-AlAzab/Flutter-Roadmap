@@ -3,14 +3,14 @@ import 'package:flutter_roadmap/core/constant/string.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CoustomBottomNavigationBar extends StatelessWidget {
-  const CoustomBottomNavigationBar({super.key, required this.index});
+  const CoustomBottomNavigationBar({super.key, this.index = -1});
 
   final int index;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: index,
+      currentIndex: index == -1 ? 0 : index,
       onTap: (index) {
         switch (index) {
           case 0:
@@ -23,14 +23,14 @@ class CoustomBottomNavigationBar extends StatelessWidget {
           case 1:
             Navigator.pushNamedAndRemoveUntil(
               context,
-              roadmapScreen,
+              progressScreen,
               (Route route) => false,
             );
             break;
           case 2:
             Navigator.pushNamedAndRemoveUntil(
               context,
-              roadmapScreen,
+              settingScreen,
               (Route route) => false,
             );
             break;
@@ -43,7 +43,9 @@ class CoustomBottomNavigationBar extends StatelessWidget {
         }
       },
       unselectedItemColor: Theme.of(context).colorScheme.secondary,
-      selectedItemColor: Theme.of(context).colorScheme.primary,
+      selectedItemColor: index == -1
+          ? Theme.of(context).colorScheme.secondary
+          : Theme.of(context).colorScheme.primary,
       backgroundColor: Theme.of(context).colorScheme.surface,
       iconSize: 24,
       selectedFontSize: 12,

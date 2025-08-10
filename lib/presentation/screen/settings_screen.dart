@@ -5,6 +5,7 @@ import 'package:flutter_roadmap/core/constant/string.dart';
 import 'package:flutter_roadmap/core/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/core/theme/domain/entity/theme_entity.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_app_bar.dart';
+import 'package:flutter_roadmap/presentation/widget/coustom_bottom_navigation_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -19,6 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: CoustomAppBar(title: 'Settings'),
+
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         child: Column(
@@ -53,6 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: CoustomBottomNavigationBar(index: 2),
     );
   }
 }

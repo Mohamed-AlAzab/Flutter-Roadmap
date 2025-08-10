@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/constant/string.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_app_bar.dart';
+import 'package:flutter_roadmap/presentation/widget/coustom_bottom_navigation_bar.dart';
 import 'package:flutter_roadmap/presentation/widget/coustom_home_card.dart';
 
 class RoadmapScreen extends StatelessWidget {
@@ -35,6 +36,7 @@ class RoadmapScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: CoustomBottomNavigationBar(index: 0),
     );
   }
 }
