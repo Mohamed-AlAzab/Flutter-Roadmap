@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_roadmap/core/constant/string.dart';
-import 'package:flutter_roadmap/presentation/screen/content_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/forgot_password_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/login_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/main_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/progress_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/roadmap_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/settings_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/signin_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/topic_screen.dart';
-import 'package:flutter_roadmap/presentation/screen/topics_screen.dart';
+import 'package:flutter_roadmap/core/constant/routs_string.dart';
+import 'package:flutter_roadmap/features/content/presentation/content_screen.dart';
+import 'package:flutter_roadmap/features/auth/presentation/screen/forgot_password_screen.dart';
+import 'package:flutter_roadmap/features/auth/presentation/screen/login_screen.dart';
+import 'package:flutter_roadmap/features/progress/presentation/progress_screen.dart';
+import 'package:flutter_roadmap/features/courses/presentation/screen/roadmap_screen.dart';
+import 'package:flutter_roadmap/features/setting/presentation/settings_screen.dart';
+import 'package:flutter_roadmap/features/auth/presentation/screen/signin_screen.dart';
+import 'package:flutter_roadmap/features/topic/presentation/topic_screen.dart';
+import 'package:flutter_roadmap/features/topic/presentation/topics_screen.dart';
 
 class AppRouter {
   Route? generateRouter(RouteSettings setting) {
     switch (setting.name) {
-      case mainScreen:
-        return MaterialPageRoute(builder: (_) => MainScreen());
       case loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case signinScreen:
