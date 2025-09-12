@@ -3,10 +3,10 @@ import 'package:flutter_roadmap/core/constant/routs_string.dart';
 import 'package:flutter_roadmap/features/content/presentation/content_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/forgot_password_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/login_screen.dart';
-import 'package:flutter_roadmap/features/progress/presentation/progress_screen.dart';
+import 'package:flutter_roadmap/features/progress/presentation/screen/progress_screen.dart';
 import 'package:flutter_roadmap/features/courses/presentation/screen/roadmap_screen.dart';
 import 'package:flutter_roadmap/features/setting/presentation/settings_screen.dart';
-import 'package:flutter_roadmap/features/auth/presentation/screen/signin_screen.dart';
+import 'package:flutter_roadmap/features/auth/presentation/screen/signup_screen.dart';
 import 'package:flutter_roadmap/features/topic/presentation/topic_screen.dart';
 import 'package:flutter_roadmap/features/topic/presentation/topics_screen.dart';
 
@@ -15,8 +15,8 @@ class AppRouter {
     switch (setting.name) {
       case loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case signinScreen:
-        return MaterialPageRoute(builder: (_) => SigninScreen());
+      case signupScreen:
+        return MaterialPageRoute(builder: (_) => SignupScreen());
       case forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
       case roadmapScreen:

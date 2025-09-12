@@ -1,21 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
-import 'package:flutter_roadmap/core/widget/coustom_button.dart';
+import 'package:flutter_roadmap/core/utils/helper.dart';
+import 'package:flutter_roadmap/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flutter_roadmap/features/auth/presentation/widget/auth_button.dart';
 import 'package:flutter_roadmap/features/auth/presentation/widget/coustom_text_field.dart';
+import 'package:flutter_roadmap/features/auth/presentation/widget/custom_snack_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SigninScreen extends StatelessWidget {
-  SigninScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController nameTextEditingController =
-      TextEditingController();
-  final TextEditingController emailTextEditingController =
-      TextEditingController();
-  final TextEditingController passwordTextEditingController =
-      TextEditingController();
-  final TextEditingController confirmPasswordTextEditingController =
-      TextEditingController();
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +59,13 @@ class SigninScreen extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     'assets/images/svg/signin.svg',
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: context.width * 0.5,
                   ),
                   SizedBox(height: 48),
                   Text('Create your account', style: TextStyle(fontSize: 32)),
                   SizedBox(height: 24),
                   CoustomTextFormField(
-                    controller: nameTextEditingController,
-                    hintColor: Theme.of(context).colorScheme.primary,
-                    fillColor: Theme.of(context).colorScheme.onPrimary,
+                    controller: nameController,
                     text: 'Full Name',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -53,11 +74,9 @@ class SigninScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 6),
                   CoustomTextFormField(
-                    controller: emailTextEditingController,
-                    hintColor: Theme.of(context).colorScheme.primary,
-                    fillColor: Theme.of(context).colorScheme.onPrimary,
+                    controller: emailController,
                     text: 'Email',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -66,53 +85,88 @@ class SigninScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 6),
                   CoustomTextFormField(
-                    controller: passwordTextEditingController,
-                    hintColor: Theme.of(context).colorScheme.primary,
-                    fillColor: Theme.of(context).colorScheme.onPrimary,
+                    controller: passwordController,
                     text: 'Password',
                     obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter the password';
                       }
-                      // if(value.lenght < 8){
-                      //   return 'Password should be more than 8';
-                      // }
+                      if (value.length < 6) {
+                        return 'Password should be more than 6';
+                      }
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 6),
                   CoustomTextFormField(
-                    controller: confirmPasswordTextEditingController,
-                    hintColor: Theme.of(context).colorScheme.primary,
-                    fillColor: Theme.of(context).colorScheme.onPrimary,
+                    controller: confirmPasswordController,
                     text: 'Confirm Password',
                     obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter the confirm password';
                       }
-                      // if(value.lenght < 8){
-                      //   return 'Password should be more than 8';
-                      // }
-                      if (value != confirmPasswordTextEditingController.text) {
+                      if (value.length < 6) {
+                        return 'Password should be more than 6';
+                      }
+                      if (value != passwordController.text) {
                         return 'Password don\'t match';
                       }
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
-                  CoustomButton(
-                    onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        print('True');
+                  SizedBox(height: 6),
+                  BlocConsumer<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is Authenticated) {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          roadmapScreen,
+                          (Route<dynamic> route) => false,
+                        );
+                        CustomSnackBar(
+                          context: context,
+                          message: 'Login Successfully',
+                          color: Colors.green,
+                        );
+                      }
+                      if (state is Unauthenticated) {
+                        if (state.unauthenticatedMessage != null) {
+                          CustomSnackBar(
+                            context: context,
+                            message: state.unauthenticatedMessage!,
+                            color: Colors.red,
+                          );
+                        }
+                      }
+                      if (state is AuthError) {
+                        CustomSnackBar(
+                          context: context,
+                          message: state.message,
+                          color: Colors.red,
+                        );
                       }
                     },
-                    text: 'Sign Up',
-                    color: Theme.of(context).colorScheme.onSurface,
-                    textColor: Theme.of(context).colorScheme.surface,
+                    builder: (context, state) {
+                      return AuthButton(
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<AuthBloc>().add(
+                              RegisterEvent(
+                                nameController.text,
+                                emailController.text,
+                                passwordController.text,
+                              ),
+                            );
+                          }
+                        },
+                        isLoading: state is AuthLoading,
+                        text: 'Sign Up',
+                      );
+                    },
                   ),
                   SizedBox(height: 24),
                   Row(

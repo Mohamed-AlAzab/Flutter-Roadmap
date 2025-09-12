@@ -16,7 +16,15 @@ final class Authenticated extends AuthState {
   // const Authenticated(this.user);
 }
 
-final class Unauthenticated extends AuthState {}
+final class Unauthenticated extends AuthState {
+  final String? unauthenticatedMessage;
+  const Unauthenticated(this.unauthenticatedMessage);
+}
+
+final class ResetPasswordState extends AuthState {
+  final String message;
+  const ResetPasswordState(this.message);
+}
 
 final class AuthError extends AuthState {
   final String message;

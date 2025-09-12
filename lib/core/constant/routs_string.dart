@@ -1,5 +1,5 @@
 const loginScreen = '/login';
-const signinScreen = '/signin';
+const signupScreen = '/signup';
 const forgotPasswordScreen = '/forgotPassword';
 const roadmapScreen = '/roadmap';
 const progressScreen = '/progress';

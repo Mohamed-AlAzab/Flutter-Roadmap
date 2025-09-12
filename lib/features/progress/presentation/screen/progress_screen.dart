@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
 import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
 import 'package:flutter_roadmap/core/widget/coustom_bottom_navigation_bar.dart';
-import 'package:flutter_roadmap/features/progress/presentation/coustom_progress_card.dart';
+import 'package:flutter_roadmap/features/progress/presentation/widget/custom_progress_card.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
+import 'package:flutter_roadmap/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_roadmap/features/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/features/theme/domain/entity/theme_entity.dart';
 import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
@@ -44,13 +45,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                loginScreen,
-                (Route<dynamic> route) => false,
-              ),
-              child: Text('Log out'),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(LogoutEvent());
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      loginScreen,
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                  child: Text('Log out'),
+                );
+              },
             ),
           ],
         ),

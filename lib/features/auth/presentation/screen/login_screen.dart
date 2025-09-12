@@ -3,16 +3,38 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
 import 'package:flutter_roadmap/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:flutter_roadmap/core/widget/coustom_button.dart';
+import 'package:flutter_roadmap/features/auth/presentation/widget/auth_button.dart';
 import 'package:flutter_roadmap/features/auth/presentation/widget/coustom_text_field.dart';
+import 'package:flutter_roadmap/features/auth/presentation/widget/custom_snack_bar.dart';
+import 'package:flutter_roadmap/features/auth/presentation/widget/signin_with_github_button.dart';
+import 'package:flutter_roadmap/features/auth/presentation/widget/signin_with_google_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +60,6 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: 24),
                   CoustomTextFormField(
                     controller: emailController,
-                    hintColor: Theme.of(context).colorScheme.primary,
-                    fillColor: Theme.of(context).colorScheme.onPrimary,
                     text: 'Email',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -48,24 +68,19 @@ class LoginScreen extends StatelessWidget {
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 6),
                   CoustomTextFormField(
                     controller: passwordController,
-                    hintColor: Theme.of(context).colorScheme.primary,
-                    fillColor: Theme.of(context).colorScheme.onPrimary,
                     text: 'Password',
                     obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter the password';
                       }
-                      // if(value.lenght < 8){
-                      //   return 'Password should be more than 8';
-                      // }
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 6),
                   Row(
                     children: [
                       GestureDetector(
@@ -91,14 +106,31 @@ class LoginScreen extends StatelessWidget {
                           roadmapScreen,
                           (Route<dynamic> route) => false,
                         );
+                        CustomSnackBar(
+                          context: context,
+                          message: 'Login Successfully',
+                          color: Colors.green,
+                        );
                       }
-                      if (state is Unauthenticated) {}
+                      if (state is Unauthenticated) {
+                        if (state.unauthenticatedMessage != null) {
+                          CustomSnackBar(
+                            context: context,
+                            message: state.unauthenticatedMessage!,
+                            color: Colors.red,
+                          );
+                        }
+                      }
+                      if (state is AuthError) {
+                        CustomSnackBar(
+                          context: context,
+                          message: state.message,
+                          color: Colors.red,
+                        );
+                      }
                     },
                     builder: (context, state) {
-                      if (state is AuthLoading) {
-                        return CircularProgressIndicator();
-                      }
-                      return CoustomButton(
+                      return AuthButton(
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
                             context.read<AuthBloc>().add(
@@ -109,9 +141,8 @@ class LoginScreen extends StatelessWidget {
                             );
                           }
                         },
+                        isLoading: state is AuthLoading,
                         text: 'Login',
-                        color: Theme.of(context).colorScheme.onSurface,
-                        textColor: Theme.of(context).colorScheme.surface,
                       );
                     },
                   ),
@@ -130,7 +161,7 @@ class LoginScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            signinScreen,
+                            signupScreen,
                             (Route<dynamic> route) => false,
                           );
                         },
@@ -141,6 +172,53 @@ class LoginScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text('  Or  ', style: TextStyle(fontSize: 16)),
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          return SigninWithGoogleButton(
+                            onTap: () async {
+                              context.read<AuthBloc>().add(
+                                SignInWithGoogleEvent(),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 12),
+                      BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          return SigninWithGithubButton(
+                            onTap: () async {
+                              context.read<AuthBloc>().add(
+                                SignInWithGithubEvent(),
+                              );
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),
