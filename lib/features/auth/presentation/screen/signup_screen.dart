@@ -124,18 +124,19 @@ class _SignupScreenState extends State<SignupScreen> {
                       if (state is Authenticated) {
                         Navigator.pushNamedAndRemoveUntil(
                           context,
-                          roadmapScreen,
+                          loginScreen,
                           (Route<dynamic> route) => false,
                         );
-                        CustomSnackBar(
+                        Message(
                           context: context,
-                          message: 'Login Successfully',
+                          message:
+                              'Account created successfully. Please check your email to verify your account.',
                           color: Colors.green,
                         );
                       }
                       if (state is Unauthenticated) {
                         if (state.unauthenticatedMessage != null) {
-                          CustomSnackBar(
+                          Message(
                             context: context,
                             message: state.unauthenticatedMessage!,
                             color: Colors.red,
@@ -143,7 +144,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         }
                       }
                       if (state is AuthError) {
-                        CustomSnackBar(
+                        Message(
                           context: context,
                           message: state.message,
                           color: Colors.red,

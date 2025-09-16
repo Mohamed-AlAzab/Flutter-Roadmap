@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           roadmapScreen,
                           (Route<dynamic> route) => false,
                         );
-                        CustomSnackBar(
+                        Message(
                           context: context,
                           message: 'Login Successfully',
                           color: Colors.green,
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       if (state is Unauthenticated) {
                         if (state.unauthenticatedMessage != null) {
-                          CustomSnackBar(
+                          Message(
                             context: context,
                             message: state.unauthenticatedMessage!,
                             color: Colors.red,
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       }
                       if (state is AuthError) {
-                        CustomSnackBar(
+                        Message(
                           context: context,
                           message: state.message,
                           color: Colors.red,

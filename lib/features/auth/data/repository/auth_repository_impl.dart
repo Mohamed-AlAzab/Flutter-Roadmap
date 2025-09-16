@@ -9,20 +9,16 @@ class AuthRepositoryImpl extends AuthRepository {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
-  // ignore: body_might_complete_normally_nullable
   Future<User?> loginWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
 
-      User user = User(uid: userCredential.user!.uid, email: email);
-
-      return user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        throw Exception('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        throw Exception('Wrong password provided for that user.');
+      if (userCredential.user!.emailVerified) {
+        User user = User(uid: userCredential.user!.uid, email: email);
+        return user;
+      } else {
+        throw Exception('Please check your email to verify your account');
       }
     } catch (e) {
       throw Exception(e.toString());
@@ -30,7 +26,6 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  // ignore: body_might_complete_normally_nullable
   Future<User?> registerWithEmailAndPassword(
     String name,
     String email,
@@ -40,15 +35,14 @@ class AuthRepositoryImpl extends AuthRepository {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
+      userCredential.user!.sendEmailVerification();
+
+      await userCredential.user!.updateDisplayName(name);
+      await userCredential.user?.reload();
+
       User user = User(uid: userCredential.user!.uid, email: email);
 
       return user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw Exception('The account already exists for that email.');
-      }
     } catch (e) {
       throw Exception(e.toString());
     }

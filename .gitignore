@@ -48,3 +48,4 @@ app.*.map.json
 # env file
 /lib/core/constant/string.dart
 /lib/firebase_options.dart
+/lib/features/auth/message

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomSnackBar {
-  CustomSnackBar({
+class Message {
+  Message({
     required BuildContext context,
     required String message,
     required Color color,

@@ -96,7 +96,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             (context) => false,
                           );
                         }
-                        CustomSnackBar(
+                        Message(
                           context: context,
                           message: '${state.message} (Check spam)',
                           color: state.message == resetPasswordByEmailString
@@ -104,7 +104,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               : Colors.red,
                         );
                       } else if (state is AuthError) {
-                        CustomSnackBar(
+                        Message(
                           context: context,
                           message: state.message,
                           color: Colors.red,
