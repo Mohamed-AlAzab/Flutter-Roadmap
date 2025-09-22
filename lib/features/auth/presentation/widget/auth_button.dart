@@ -28,8 +28,10 @@ class AuthButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: isLoading
-                ? CircularProgressIndicator(
-                    color: Theme.of(context).colorScheme.surface,
+                ? SizedBox(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
                   )
                 : Text(
                     text,

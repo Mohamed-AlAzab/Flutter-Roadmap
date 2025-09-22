@@ -21,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController emailController;
   late TextEditingController passwordController;
+  bool isTap = false;
+  bool isEmailLogin = false;
 
   @override
   void initState() {
@@ -106,11 +108,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           roadmapScreen,
                           (Route<dynamic> route) => false,
                         );
-                        Message(
-                          context: context,
-                          message: 'Login Successfully',
-                          color: Colors.green,
-                        );
+                        if (isTap) {
+                          Message(
+                            context: context,
+                            message: 'Login Successfully',
+                            color: Colors.green,
+                          );
+                        }
                       }
                       if (state is Unauthenticated) {
                         if (state.unauthenticatedMessage != null) {
@@ -133,6 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       return AuthButton(
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
+                            isTap = true;
+                            isEmailLogin = true;
                             context.read<AuthBloc>().add(
                               LoginEvent(
                                 emailController.text,
@@ -141,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           }
                         },
-                        isLoading: state is AuthLoading,
+                        isLoading: isEmailLogin ? state is AuthLoading : false,
                         text: 'Login',
                       );
                     },
@@ -201,6 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context, state) {
                           return SigninWithGoogleButton(
                             onTap: () async {
+                              isTap = true;
                               context.read<AuthBloc>().add(
                                 SignInWithGoogleEvent(),
                               );
@@ -213,6 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context, state) {
                           return SigninWithGithubButton(
                             onTap: () async {
+                              isTap = true;
                               context.read<AuthBloc>().add(
                                 SignInWithGithubEvent(),
                               );

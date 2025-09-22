@@ -152,7 +152,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         emit(Authenticated());
       } else {
-        emit(Unauthenticated('Error while login With google'));
+        emit(Unauthenticated('Login with Google is canceled'));
       }
     } catch (e) {
       emit(AuthError(e.toString()));
