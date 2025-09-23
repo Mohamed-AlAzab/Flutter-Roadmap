@@ -1,8 +1,8 @@
-class User {
+class AppUser {
   String uid;
   String email;
 
-  User({required this.uid, required this.email});
+  AppUser({required this.uid, required this.email});
 
   // convert app user => json
   Map<String, dynamic> toJson() {
@@ -10,7 +10,7 @@ class User {
   }
 
   // convert json => app user
-  factory User.fromJson(Map<String, dynamic> jsonUser) {
-    return User(uid: jsonUser['uid'], email: jsonUser['email']);
+  factory AppUser.fromJson(Map<String, dynamic> jsonUser) {
+    return AppUser(uid: jsonUser['uid'], email: jsonUser['email']);
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter_roadmap/features/auth/domain/entity/user.dart';
 
 abstract class AuthRepository {
-  Future<User?> loginWithEmailAndPassword(String email, String password);
+  Future<AppUser?> loginWithEmailAndPassword(String email, String password);
 
-  Future<User?> registerWithEmailAndPassword(
+  Future<AppUser?> registerWithEmailAndPassword(
     String name,
     String email,
     String password,
   );
 
-  Future<User?> getCurrentUser();
+  Future<AppUser?> getCurrentUser();
 
   Future<String> resetPasswordByEmail(String email);
 
@@ -17,7 +17,7 @@ abstract class AuthRepository {
 
   Future<void> deleteAccount();
 
-  Future<User?> signInWithGoogle();
+  Future<AppUser?> signInWithGoogle();
 
-  Future<User> signInWithGitHub();
+  Future<AppUser> signInWithGitHub();
 }

@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart' hide User;
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_roadmap/core/constant/collection_name.dart';
 import 'package:flutter_roadmap/core/constant/string.dart';
 import 'package:flutter_roadmap/features/auth/domain/entity/user.dart';
 import 'package:flutter_roadmap/features/auth/domain/repository/auth_repository.dart';
@@ -7,15 +8,25 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final firebaseFirestore = FirebaseFirestore.instance.collection(
+    usersCollectionName,
+  );
 
   @override
-  Future<User?> loginWithEmailAndPassword(String email, String password) async {
+  Future<AppUser?> loginWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
 
+      if (userCredential.user == null) throw Exception('Login failed');
+
+      await createUserinFirestore(userCredential.user!);
+
       if (userCredential.user!.emailVerified) {
-        User user = User(uid: userCredential.user!.uid, email: email);
+        AppUser user = AppUser(uid: userCredential.user!.uid, email: email);
         return user;
       } else {
         throw Exception('Please check your email to verify your account');
@@ -26,7 +37,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<User?> registerWithEmailAndPassword(
+  Future<AppUser?> registerWithEmailAndPassword(
     String name,
     String email,
     String password,
@@ -40,26 +51,27 @@ class AuthRepositoryImpl extends AuthRepository {
       await userCredential.user!.updateDisplayName(name);
       await userCredential.user?.reload();
 
-      User user = User(uid: userCredential.user!.uid, email: email);
+      await createUserinFirestore(userCredential.user!);
 
-      return user;
+      return AppUser(uid: userCredential.user!.uid, email: email);
     } catch (e) {
       throw Exception(e.toString());
     }
   }
 
   @override
-  Future<User?> getCurrentUser() async {
+  Future<AppUser?> getCurrentUser() async {
     final currentUser = firebaseAuth.currentUser;
 
     if (currentUser == null) return null;
 
-    return User(uid: currentUser.uid, email: currentUser.email!);
+    return AppUser(uid: currentUser.uid, email: currentUser.email!);
   }
 
   @override
   Future<String> resetPasswordByEmail(String email) async {
     try {
+      // Todo: add verify validation
       await firebaseAuth.sendPasswordResetEmail(email: email);
       return resetPasswordByEmailString;
     } catch (e) {
@@ -90,13 +102,12 @@ class AuthRepositoryImpl extends AuthRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
   @override
-  Future<User?> signInWithGoogle() async {
+  Future<AppUser?> signInWithGoogle() async {
     await _googleSignIn.initialize(serverClientId: clientId);
-
     try {
       final account = await _googleSignIn.authenticate();
       // ignore: unnecessary_null_comparison
-      if (account == null) return null;
+      if (account == null) throw Exception('Login with Google is canceled');
 
       final auth = account.authentication;
 
@@ -107,21 +118,53 @@ class AuthRepositoryImpl extends AuthRepository {
       );
 
       final user = userCredential.user;
-      if (user == null) return null;
+      if (user == null) throw Exception('User not found');
 
-      return User(uid: user.uid, email: user.email ?? '');
+      await createUserinFirestore(user);
+
+      return AppUser(uid: user.uid, email: user.email ?? '');
     } catch (e) {
-      debugPrint(e.toString());
-      return null;
+      throw Exception(e.toString());
     }
   }
 
   @override
-  Future<User> signInWithGitHub() async {
-    GithubAuthProvider githubProvider = GithubAuthProvider();
-    final firebaseUser = await FirebaseAuth.instance.signInWithProvider(
-      githubProvider,
-    );
-    return User(uid: firebaseUser.user!.uid, email: firebaseUser.user!.email!);
+  Future<AppUser> signInWithGitHub() async {
+    try {
+      GithubAuthProvider githubProvider = GithubAuthProvider();
+      final firebaseUser = await FirebaseAuth.instance.signInWithProvider(
+        githubProvider,
+      );
+
+      if (firebaseUser.user == null) throw Exception('GitHub sign-in failed');
+
+      await createUserinFirestore(firebaseUser.user!);
+
+      return AppUser(
+        uid: firebaseUser.user!.uid,
+        email: firebaseUser.user!.email!,
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  // Create User in firestore
+  Future createUserinFirestore(User user) async {
+    try {
+      final ref = firebaseFirestore.doc(user.uid);
+      final doc = await ref.get();
+      if (!doc.exists) {
+        await ref.set({
+          userRoleDocName: 'user',
+          userNameDocName: user.displayName ?? 'Username',
+          userEmailDocName: user.email,
+          userLevelDocName: 0,
+          userCreatedAtDocName: FieldValue.serverTimestamp(),
+        });
+      }
+    } catch (e) {
+      throw Exception('Field to create user');
+    }
   }
 }

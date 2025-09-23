@@ -6,7 +6,7 @@ class RegisterUserUsecase {
 
   RegisterUserUsecase({required this.authRepository});
 
-  Future<User?> call(String name, String email, String password) async {
+  Future<AppUser?> call(String name, String email, String password) async {
     return authRepository.registerWithEmailAndPassword(name, email, password);
   }
 }

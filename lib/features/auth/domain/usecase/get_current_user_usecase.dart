@@ -6,7 +6,7 @@ class GetCurrentUserUsecase {
 
   GetCurrentUserUsecase({required this.authRepository});
 
-  Future<User?> call() async {
+  Future<AppUser?> call() async {
     return authRepository.getCurrentUser();
   }
 }

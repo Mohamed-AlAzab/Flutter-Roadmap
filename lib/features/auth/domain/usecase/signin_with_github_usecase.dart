@@ -5,7 +5,7 @@ class SigninWithGithubUsecase {
   final AuthRepository authRepository;
   SigninWithGithubUsecase({required this.authRepository});
 
-  Future<User?> call() async {
+  Future<AppUser?> call() async {
     return await authRepository.signInWithGitHub();
   }
 }
