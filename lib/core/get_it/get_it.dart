@@ -9,6 +9,13 @@ import 'package:flutter_roadmap/features/auth/domain/usecase/reset_password_by_e
 import 'package:flutter_roadmap/features/auth/domain/usecase/signin_with_github_usecase.dart';
 import 'package:flutter_roadmap/features/auth/domain/usecase/signin_with_google_usecase.dart';
 import 'package:flutter_roadmap/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flutter_roadmap/features/courses/data/repository/courses_repository_impl.dart';
+import 'package:flutter_roadmap/features/courses/domain/repository/courses_repository.dart';
+import 'package:flutter_roadmap/features/courses/domain/usecase/add_course_use_case.dart';
+import 'package:flutter_roadmap/features/courses/domain/usecase/delete_course_use_case.dart';
+import 'package:flutter_roadmap/features/courses/domain/usecase/edit_course_use_case.dart';
+import 'package:flutter_roadmap/features/courses/domain/usecase/get_all_courses_use_case.dart';
+import 'package:flutter_roadmap/features/courses/presentation/bloc/courses_bloc.dart';
 import 'package:flutter_roadmap/features/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/features/theme/data/datasource/theme_local_datasource.dart';
 import 'package:flutter_roadmap/features/theme/data/repository/theme_repository.dart';
@@ -81,5 +88,26 @@ Future<void> init() async {
     ),
   );
 
-  //
+  // Course
+  getIt.registerSingleton<CoursesRepository>(CoursesRepositoryImpl());
+  getIt.registerSingleton<GetAllCoursesUseCase>(
+    GetAllCoursesUseCase(coursesRepository: getIt()),
+  );
+  getIt.registerSingleton<AddCourseUseCase>(
+    AddCourseUseCase(coursesRepository: getIt()),
+  );
+  getIt.registerSingleton<EditCourseUseCase>(
+    EditCourseUseCase(coursesRepository: getIt()),
+  );
+  getIt.registerSingleton<DeleteCourseUseCase>(
+    DeleteCourseUseCase(coursesRepository: getIt()),
+  );
+  getIt.registerFactory(
+    () => CoursesBloc(
+      addCourseUseCase: getIt(),
+      deleteCourseUseCase: getIt(),
+      editCourseUseCase: getIt(),
+      getAllCoursesUseCase: getIt(),
+    ),
+  );
 }

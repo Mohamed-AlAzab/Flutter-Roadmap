@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
+import 'package:flutter_roadmap/features/courses/domain/entity/course.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CoursesCard extends StatelessWidget {
   const CoursesCard({
     super.key,
-    required this.imageUrl,
-    required this.barPercentage,
-    required this.title,
-    required this.text,
+    required this.course,
     required this.onTap,
+    this.onLongPress,
   });
 
-  final String imageUrl;
-  final double barPercentage;
-  final String title;
-  final String text;
+  final Course course;
   final VoidCallback onTap;
+  final void Function()? onLongPress;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         width: context.width - 32,
         decoration: BoxDecoration(
@@ -39,14 +38,41 @@ class CoursesCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(12),
-              child: Image.asset(
-                imageUrl,
-                fit: BoxFit.cover,
-                height: 200,
-                width: context.width - 32,
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xff345eca),
+                borderRadius: BorderRadius.circular(12),
               ),
+              width: context.width - 32,
+              height: 200,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (course.icon != 'null')
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/svg/${course.icon}_icon.svg',
+                          colorFilter: null,
+                          width: 74,
+                        ),
+                        SizedBox(width: 16),
+                      ],
+                    ),
+                  Text(
+                    course.name,
+                    style: TextStyle(fontSize: 74, color: Color(0xff142c5e)),
+                  ),
+                ],
+              ),
+              /*
+                Image.asset(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: context.width - 32,
+                ),
+              */
             ),
             Padding(
               padding: const EdgeInsets.all(16),
@@ -54,7 +80,7 @@ class CoursesCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    course.title,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -63,7 +89,7 @@ class CoursesCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    text,
+                    course.description,
                     maxLines: 1,
                     style: TextStyle(
                       fontSize: 14,
@@ -85,11 +111,11 @@ class CoursesCard extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: barPercentage > 1
+                              width: course.progress > 1
                                   ? context.width - 106
-                                  : barPercentage < 0
+                                  : course.progress < 0
                                   ? 0
-                                  : (context.width - 106) * barPercentage,
+                                  : (context.width - 106) * course.progress,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 color: Theme.of(context).colorScheme.onSurface,
@@ -100,11 +126,11 @@ class CoursesCard extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        '${(barPercentage > 1
+                        '${(course.progress > 1
                             ? 100
-                            : barPercentage < 0
+                            : course.progress < 0
                             ? 0
-                            : barPercentage * 100).ceil()}%',
+                            : course.progress * 100).ceil()}%',
                         style: TextStyle(fontSize: 14),
                       ),
                     ],

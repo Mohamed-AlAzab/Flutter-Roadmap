@@ -5,6 +5,7 @@ import 'package:flutter_roadmap/app_router.dart';
 import 'package:flutter_roadmap/core/get_it/get_it.dart';
 import 'package:flutter_roadmap/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/login_screen.dart';
+import 'package:flutter_roadmap/features/courses/presentation/bloc/courses_bloc.dart';
 import 'package:flutter_roadmap/features/theme/app_theme.dart';
 import 'package:flutter_roadmap/features/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/features/theme/domain/entity/theme_entity.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<AuthBloc>()..add(CheckAuthEvent()),
         ),
+        BlocProvider(
+          create: (context) => getIt<CoursesBloc>()..add(GetCoursesEvent()),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
@@ -41,7 +45,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: AppTheme.getTheme(
               state.themeEntity?.themeType == ThemeType.dark,
-            ), 
+            ),
             onGenerateRoute: appRouter.generateRouter,
             home: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
@@ -56,4 +60,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-} 
+}

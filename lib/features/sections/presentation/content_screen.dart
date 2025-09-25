@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
 import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
 import 'package:flutter_roadmap/core/widget/coustom_bottom_navigation_bar.dart';
-import 'package:flutter_roadmap/features/content/presentation/coustom_content_card.dart';
+import 'package:flutter_roadmap/features/sections/presentation/coustom_content_card.dart';
 
 class ContentScreen extends StatelessWidget {
   ContentScreen({super.key});

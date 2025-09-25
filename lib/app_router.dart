@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
-import 'package:flutter_roadmap/features/content/presentation/content_screen.dart';
+import 'package:flutter_roadmap/features/sections/presentation/content_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/forgot_password_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/login_screen.dart';
 import 'package:flutter_roadmap/features/progress/presentation/screen/progress_screen.dart';
