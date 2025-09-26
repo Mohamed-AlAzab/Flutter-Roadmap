@@ -5,8 +5,8 @@ import 'package:flutter_roadmap/core/constant/routs_string.dart';
 import 'package:flutter_roadmap/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_roadmap/features/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/features/theme/domain/entity/theme_entity.dart';
-import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
-import 'package:flutter_roadmap/core/widget/coustom_bottom_navigation_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_app_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_bottom_navigation_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,7 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CoustomAppBar(title: 'Settings'),
+      appBar: CustomAppBar(title: 'Settings'),
 
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
-import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
-import 'package:flutter_roadmap/core/widget/coustom_bottom_navigation_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_app_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_bottom_navigation_bar.dart';
 import 'package:flutter_roadmap/features/progress/presentation/widget/custom_progress_card.dart';
 
 class ProgressScreen extends StatelessWidget {
@@ -11,7 +11,7 @@ class ProgressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CoustomAppBar(title: 'Progress'),
+      appBar: CustomAppBar(title: 'Progress'),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(

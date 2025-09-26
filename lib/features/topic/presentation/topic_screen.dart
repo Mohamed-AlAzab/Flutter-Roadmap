@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/utils/helper.dart';
-import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
-import 'package:flutter_roadmap/core/widget/coustom_bottom_navigation_bar.dart';
-import 'package:flutter_roadmap/core/widget/coustom_button.dart';
+import 'package:flutter_roadmap/core/widget/custom_app_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_bottom_navigation_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TopicScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class TopicScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CoustomAppBar(title: 'Topic'),
+      appBar: CustomAppBar(title: 'Topic'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),

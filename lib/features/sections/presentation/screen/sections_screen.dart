@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
-import 'package:flutter_roadmap/core/widget/coustom_app_bar.dart';
-import 'package:flutter_roadmap/core/widget/coustom_bottom_navigation_bar.dart';
-import 'package:flutter_roadmap/features/sections/presentation/coustom_content_card.dart';
+import 'package:flutter_roadmap/core/widget/custom_app_bar.dart';
+import 'package:flutter_roadmap/core/widget/custom_bottom_navigation_bar.dart';
+import 'package:flutter_roadmap/features/sections/presentation/widget/section_card.dart';
 
-class ContentScreen extends StatelessWidget {
-  ContentScreen({super.key});
+class SectionsScreen extends StatelessWidget {
+  SectionsScreen({super.key});
 
   final List<Map<String, String>> content = [
     {
@@ -81,27 +81,22 @@ class ContentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CoustomAppBar(title: 'Content'),
+      appBar: CustomAppBar(title: 'Content'),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16, left: 16, right: 4),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: content.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: CoustomContentCard(
-                  onTap: () {
-                    Navigator.pushNamed(context, topicsScreen);
-                  },
-                  title: content[index]['title']!,
-                  text: content[index]['text']!,
-                ),
-              );
-            },
-          ),
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: content.length,
+          itemBuilder: (context, index) {
+            return SectionCard(
+              onTap: () {
+                Navigator.pushNamed(context, topicsScreen);
+              },
+              title: content[index]['title']!,
+              text: content[index]['text']!,
+              progress: 0.2,
+            );
+          },
         ),
       ),
       bottomNavigationBar: CoustomBottomNavigationBar(),

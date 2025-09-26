@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_roadmap/core/constant/routs_string.dart';
-import 'package:flutter_roadmap/features/sections/presentation/content_screen.dart';
+import 'package:flutter_roadmap/features/courses/domain/entity/course.dart';
+import 'package:flutter_roadmap/features/courses/presentation/screen/add_course_screen.dart';
+import 'package:flutter_roadmap/features/courses/presentation/screen/edit_course_screen.dart';
+import 'package:flutter_roadmap/features/sections/presentation/screen/sections_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/forgot_password_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/login_screen.dart';
 import 'package:flutter_roadmap/features/progress/presentation/screen/progress_screen.dart';
@@ -21,12 +24,24 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
       case roadmapScreen:
         return MaterialPageRoute(builder: (_) => RoadmapScreen());
+      case addCourseScreen:
+        final courses = setting.arguments as List<Course>;
+        return MaterialPageRoute(
+          builder: (_) => AddCourseScreen(courses: courses),
+        );
+      case editCourseScreen:
+        final args = setting.arguments as Map<String, dynamic>;
+        final courses = args['courses'] as List<Course>;
+        final course = args['course'] as Course;
+        return MaterialPageRoute(
+          builder: (_) => EditCourseScreen(courses: courses, course: course),
+        );
       case progressScreen:
         return MaterialPageRoute(builder: (_) => ProgressScreen());
       case settingScreen:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
-      case contentScreen:
-        return MaterialPageRoute(builder: (_) => ContentScreen());
+      case sectionsScreen:
+        return MaterialPageRoute(builder: (_) => SectionsScreen());
       case topicsScreen:
         return MaterialPageRoute(builder: (_) => TopicsScreen());
       case topicScreen:
