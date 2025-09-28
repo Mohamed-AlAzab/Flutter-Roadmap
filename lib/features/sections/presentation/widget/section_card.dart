@@ -69,8 +69,6 @@ class SectionCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-
-              // Circular progress indicator
               SizedBox(
                 width: 50,
                 height: 50,

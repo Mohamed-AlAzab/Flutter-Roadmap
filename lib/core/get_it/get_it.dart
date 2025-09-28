@@ -16,6 +16,13 @@ import 'package:flutter_roadmap/features/courses/domain/usecase/delete_course_us
 import 'package:flutter_roadmap/features/courses/domain/usecase/edit_course_use_case.dart';
 import 'package:flutter_roadmap/features/courses/domain/usecase/get_all_courses_use_case.dart';
 import 'package:flutter_roadmap/features/courses/presentation/bloc/courses_bloc.dart';
+import 'package:flutter_roadmap/features/sections/data/repository/sections_repository_impl.dart';
+import 'package:flutter_roadmap/features/sections/domain/repository/sections_repository.dart';
+import 'package:flutter_roadmap/features/sections/domain/usecase/add_section_use_case.dart';
+import 'package:flutter_roadmap/features/sections/domain/usecase/delete_section_use_case.dart';
+import 'package:flutter_roadmap/features/sections/domain/usecase/edit_section_use_case.dart';
+import 'package:flutter_roadmap/features/sections/domain/usecase/get_all_sections_use_case.dart';
+import 'package:flutter_roadmap/features/sections/presentation/bloc/sections_bloc.dart';
 import 'package:flutter_roadmap/features/theme/bloc/theme_bloc.dart';
 import 'package:flutter_roadmap/features/theme/data/datasource/theme_local_datasource.dart';
 import 'package:flutter_roadmap/features/theme/data/repository/theme_repository.dart';
@@ -110,4 +117,30 @@ Future<void> init() async {
       getAllCoursesUseCase: getIt(),
     ),
   );
+
+  // Section
+  getIt.registerSingleton<SectionsRepository>(SectionsRepositoryImpl());
+  getIt.registerSingleton<GetAllSectionsUseCase>(
+    GetAllSectionsUseCase(sectionsRepository: getIt()),
+  );
+  getIt.registerSingleton<AddSectionUseCase>(
+    AddSectionUseCase(sectionsRepository: getIt()),
+  );
+  getIt.registerSingleton<EditSectionUseCase>(
+    EditSectionUseCase(sectionsRepository: getIt()),
+  );
+  getIt.registerSingleton<DeleteSectionUseCase>(
+    DeleteSectionUseCase(sectionsRepository: getIt()),
+  );
+  getIt.registerFactory(
+    () => SectionsBloc(
+          getAllSectionUsesCase: getIt(),
+          addSectionUseCase: getIt(),
+          deleteSectionUseCase: getIt(),
+          editSectionUseCase: getIt(),
+        )
+  );
+
+  
+
 }

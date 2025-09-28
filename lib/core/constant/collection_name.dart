@@ -8,7 +8,16 @@ String userCreatedAtDocName = 'createdAt';
 
 // Coures Collection name and it's content.
 String coursesCollectionName = 'courses';
-String coursetitleDocName = 'title';
-String courseidDocName = 'id';
+String courseTitleDocName = 'title';
+String courseIdDocName = 'id';
+String courseOrderDocName = 'order';
 String courseDescriptionDocName = 'description';
-String courseprerequisitesDocName = 'prerequisites';
+String coursePrerequisitesDocName = 'prerequisites';
+
+// Section Collection name and it's content.
+String sectionsCollectionName = 'sections';
+String sectiontitleDocName = 'title';
+String sectionidDocName = 'id';
+String sectionOrderDocName = 'order';
+String sectionDescriptionDocName = 'description';
+String sectionprerequisitesDocName = 'prerequisites';

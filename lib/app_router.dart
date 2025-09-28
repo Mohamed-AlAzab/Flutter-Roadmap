@@ -3,6 +3,9 @@ import 'package:flutter_roadmap/core/constant/routs_string.dart';
 import 'package:flutter_roadmap/features/courses/domain/entity/course.dart';
 import 'package:flutter_roadmap/features/courses/presentation/screen/add_course_screen.dart';
 import 'package:flutter_roadmap/features/courses/presentation/screen/edit_course_screen.dart';
+import 'package:flutter_roadmap/features/sections/domain/entity/section.dart';
+import 'package:flutter_roadmap/features/sections/presentation/screen/add_section_screen.dart';
+import 'package:flutter_roadmap/features/sections/presentation/screen/edit_section_screen.dart';
 import 'package:flutter_roadmap/features/sections/presentation/screen/sections_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/forgot_password_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/login_screen.dart';
@@ -41,7 +44,29 @@ class AppRouter {
       case settingScreen:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
       case sectionsScreen:
-        return MaterialPageRoute(builder: (_) => SectionsScreen());
+        final courseId = setting.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => SectionsScreen(courseId: courseId),
+        );
+      case addSectionScreen:
+        final args = setting.arguments as Map<String, dynamic>;
+        final String courseId = args['course_id'] as String;
+        final sections = args['sections'] as List<Section>;
+        return MaterialPageRoute(
+          builder: (_) => AddSectionScreen(courseId: courseId, section: sections,),
+        );
+      case editSectionScreen:
+        final args = setting.arguments as Map<String, dynamic>;
+        final String courseId = args['course_id'] as String;
+        final sections = args['sections'] as List<Section>;
+        final section = args['section'] as Section;
+        return MaterialPageRoute(
+          builder: (_) => EditSectionScreen(
+            section: section,
+            sections: sections,
+            courseId: courseId,
+          ),
+        );
       case topicsScreen:
         return MaterialPageRoute(builder: (_) => TopicsScreen());
       case topicScreen:
