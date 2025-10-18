@@ -13,8 +13,8 @@ import 'package:flutter_roadmap/features/progress/presentation/screen/progress_s
 import 'package:flutter_roadmap/features/courses/presentation/screen/roadmap_screen.dart';
 import 'package:flutter_roadmap/features/setting/presentation/settings_screen.dart';
 import 'package:flutter_roadmap/features/auth/presentation/screen/signup_screen.dart';
-import 'package:flutter_roadmap/features/topic/presentation/topic_screen.dart';
-import 'package:flutter_roadmap/features/topic/presentation/topics_screen.dart';
+import 'package:flutter_roadmap/features/topic/presentation/screen/topic_screen.dart';
+import 'package:flutter_roadmap/features/topic/presentation/screen/topics_screen.dart';
 
 class AppRouter {
   Route? generateRouter(RouteSettings setting) {
@@ -44,31 +44,36 @@ class AppRouter {
       case settingScreen:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
       case sectionsScreen:
-        final courseId = setting.arguments as String;
+        final Course course = setting.arguments as Course;
         return MaterialPageRoute(
-          builder: (_) => SectionsScreen(courseId: courseId),
+          builder: (_) => SectionsScreen(course: course),
         );
       case addSectionScreen:
         final args = setting.arguments as Map<String, dynamic>;
-        final String courseId = args['course_id'] as String;
+        final Course course = args['course'] as Course;
         final sections = args['sections'] as List<Section>;
         return MaterialPageRoute(
-          builder: (_) => AddSectionScreen(courseId: courseId, section: sections,),
+          builder: (_) => AddSectionScreen(course: course, section: sections),
         );
       case editSectionScreen:
         final args = setting.arguments as Map<String, dynamic>;
-        final String courseId = args['course_id'] as String;
+        final Course course = args['course'] as Course;
         final sections = args['sections'] as List<Section>;
         final section = args['section'] as Section;
         return MaterialPageRoute(
           builder: (_) => EditSectionScreen(
             section: section,
             sections: sections,
-            courseId: courseId,
+            course: course,
           ),
         );
       case topicsScreen:
-        return MaterialPageRoute(builder: (_) => TopicsScreen());
+        final args = setting.arguments as Map<String, dynamic>;
+        final course = args['course'] as Course;
+        final section = args['section'] as Section;
+        return MaterialPageRoute(
+          builder: (_) => TopicsScreen(section: section, course: course),
+        );
       case topicScreen:
         return MaterialPageRoute(builder: (_) => TopicScreen());
     }

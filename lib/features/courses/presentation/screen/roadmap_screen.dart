@@ -71,7 +71,7 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
                               Navigator.pushNamed(
                                 context,
                                 sectionsScreen,
-                                arguments: state.courses[index].id,
+                                arguments: state.courses[index],
                               );
                             },
                             onLongPress: isAdmin

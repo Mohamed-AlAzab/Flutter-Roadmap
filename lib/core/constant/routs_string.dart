@@ -13,8 +13,15 @@ const sectionsScreen = '/sections';
 const addSectionScreen = '/sections/add_section';
 const editSectionScreen = '/sections/edit_section';
 
-//...
-const progressScreen = '/progress';
-const settingScreen = '/setting';
+// Topics Screens
 const topicsScreen = '/topics';
+const addTopicScreen = '/topics/add_topic';
+const editTopicScreen = '/topics/edit_topic';
 const topicScreen = '/topic';
+
+// Progress Screens
+const progressScreen = '/progress';
+const editProfileInfoInProgressScreen = '/progress/edit_profile';
+
+// Setting Screen
+const settingScreen = '/setting';

@@ -21,3 +21,11 @@ String sectionidDocName = 'id';
 String sectionOrderDocName = 'order';
 String sectionDescriptionDocName = 'description';
 String sectionprerequisitesDocName = 'prerequisites';
+
+// Section Collection name and it's content.
+String topicsCollectionName = 'topics';
+String topicTitleDocName = 'title';
+String topicIdDocName = 'id';
+String topicOrderDocName = 'order';
+String topicDescriptionDocName = 'description';
+String topicPrerequisitesDocName = 'prerequisites';

@@ -5,6 +5,7 @@ import 'package:flutter_roadmap/core/get_it/get_it.dart';
 import 'package:flutter_roadmap/core/widget/custom_app_bar.dart';
 import 'package:flutter_roadmap/core/widget/custom_button.dart';
 import 'package:flutter_roadmap/features/auth/presentation/widget/coustom_text_field.dart';
+import 'package:flutter_roadmap/features/courses/domain/entity/course.dart';
 import 'package:flutter_roadmap/features/courses/presentation/bloc/courses_bloc.dart';
 import 'package:flutter_roadmap/features/sections/domain/entity/section.dart';
 import 'package:flutter_roadmap/features/sections/presentation/bloc/sections_bloc.dart';
@@ -14,10 +15,10 @@ class EditSectionScreen extends StatefulWidget {
     super.key,
     required this.section,
     required this.sections,
-    required this.courseId,
+    required this.course,
   });
 
-  final String courseId;
+  final Course course;
   final Section section;
   final List<Section> sections;
 
@@ -148,12 +149,12 @@ class _EditSectionScreenState extends State<EditSectionScreen> {
                               context.read<SectionsBloc>().add(
                                 EditSectionEvent(
                                   _returnSection(),
-                                  widget.courseId,
+                                  widget.course.id,
                                 ),
                               );
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                 sectionsScreen,
-                                arguments: widget.courseId,
+                                arguments: widget.course,
                                 (route) => Navigator.of(context).canPop()
                                     ? route.isFirst
                                     : false,

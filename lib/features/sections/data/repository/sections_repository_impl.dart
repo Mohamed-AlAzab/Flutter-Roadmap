@@ -114,6 +114,73 @@ class SectionsRepositoryImpl implements SectionsRepository {
     }
   }
 
+  // Future<void> addAllSections(String courseId) async {
+  //   final List<Map<String, String>> content = [
+  //     {
+  //       "title": "Introduction to Object-Oriented Programming",
+  //       "text":
+  //           "Understand the core OOP concepts—objects, classes, and how Dart uses them to structure code.",
+  //     },
+  //     {
+  //       "title": "Classes and Objects",
+  //       "text":
+  //           "Learn how to define classes, create objects, and use fields and methods to organize data and behavior.",
+  //     },
+  //     {
+  //       "title": "Constructors and Named Constructors",
+  //       "text":
+  //           "Discover how to initialize objects using default, named, and factory constructors.",
+  //     },
+  //     {
+  //       "title": "Encapsulation and Getters/Setters",
+  //       "text":
+  //           "Protect data inside a class using private members, getters, setters, and custom logic.",
+  //     },
+  //     {
+  //       "title": "Inheritance",
+  //       "text":
+  //           "Reuse and extend functionality by creating subclasses and overriding methods.",
+  //     },
+  //     {
+  //       "title": "Polymorphism",
+  //       "text":
+  //           "Write flexible code using method overriding and dynamic behavior across related classes.",
+  //     },
+  //     {
+  //       "title": "Abstract Classes and Interfaces",
+  //       "text":
+  //           "Create blueprints for other classes and enforce contracts with abstract methods and interfaces.",
+  //     },
+  //     {
+  //       "title": "Mixins",
+  //       "text":
+  //           "Add shared functionality to multiple classes without using traditional inheritance.",
+  //     },
+  //     {
+  //       "title": "Generics in OOP",
+  //       "text":
+  //           "Use type parameters to build reusable, type-safe classes and methods.",
+  //     },
+  //     {
+  //       "title": "OOP Project",
+  //       "text":
+  //           "Apply everything you learned by building a small real-world application that uses classes, inheritance, and polymorphism.",
+  //     },
+  //   ];
+  //   // Insert one by one in order
+  //   for (var i = 0; i < content.length; i++) {
+  //     await addSection(
+  //       Section(
+  //         id: '',
+  //         title: content[i]['title'] ?? '',
+  //         description: content[i]['text'] ?? '',
+  //         progress: 0.0,
+  //         prerequisites: [],
+  //       ),
+  //       courseId,
+  //     );
+  //   }
+  // }
   @override
   Future<String> deleteSection(String id, String courseId) async {
     try {

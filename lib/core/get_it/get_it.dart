@@ -30,6 +30,13 @@ import 'package:flutter_roadmap/features/theme/domain/repository/theme_repositor
     show ThemeRepository;
 import 'package:flutter_roadmap/features/theme/domain/usecase/get_theme_use_case.dart';
 import 'package:flutter_roadmap/features/theme/domain/usecase/save_theme_use_case.dart';
+import 'package:flutter_roadmap/features/topic/data/repository/topics_repository_impl.dart';
+import 'package:flutter_roadmap/features/topic/domain/repository/topics_repository.dart';
+import 'package:flutter_roadmap/features/topic/domain/usecase/add_topic_use_case.dart';
+import 'package:flutter_roadmap/features/topic/domain/usecase/delete_topic_use_case.dart';
+import 'package:flutter_roadmap/features/topic/domain/usecase/edit_topic_use_case.dart';
+import 'package:flutter_roadmap/features/topic/domain/usecase/get_all_topics_use_case.dart';
+import 'package:flutter_roadmap/features/topic/presentation/bloc/topics_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -134,13 +141,33 @@ Future<void> init() async {
   );
   getIt.registerFactory(
     () => SectionsBloc(
-          getAllSectionUsesCase: getIt(),
-          addSectionUseCase: getIt(),
-          deleteSectionUseCase: getIt(),
-          editSectionUseCase: getIt(),
-        )
+      getAllSectionUsesCase: getIt(),
+      addSectionUseCase: getIt(),
+      deleteSectionUseCase: getIt(),
+      editSectionUseCase: getIt(),
+    ),
   );
 
-  
-
+  // Topic
+  getIt.registerSingleton<TopicsRepository>(TopicsRepositoryImpl());
+  getIt.registerSingleton<GetAllTopicsUseCase>(
+    GetAllTopicsUseCase(topicsRepository: getIt()),
+  );
+  getIt.registerSingleton<AddTopicUseCase>(
+    AddTopicUseCase(topicsRepository: getIt()),
+  );
+  getIt.registerSingleton<EditTopicUseCase>(
+    EditTopicUseCase(topicsRepository: getIt()),
+  );
+  getIt.registerSingleton<DeleteTopicUseCase>(
+    DeleteTopicUseCase(topicsRepository: getIt()),
+  );
+  getIt.registerFactory(
+    () => TopicsBloc(
+      getAllTopicsUseCase: getIt(),
+      addTopicUseCase: getIt(),
+      editTopicUseCase: getIt(),
+      deleteTopicUseCase: getIt(),
+    ),
+  );
 }

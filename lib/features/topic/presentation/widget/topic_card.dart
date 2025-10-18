@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CoustomTopicsCard extends StatelessWidget {
-  const CoustomTopicsCard({
+class TopicCard extends StatelessWidget {
+  const TopicCard({
     super.key,
     required this.title,
     required this.text,

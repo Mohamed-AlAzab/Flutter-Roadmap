@@ -6,30 +6,31 @@ import 'package:flutter_roadmap/core/constant/routs_string.dart';
 import 'package:flutter_roadmap/core/get_it/get_it.dart';
 import 'package:flutter_roadmap/core/widget/custom_app_bar.dart';
 import 'package:flutter_roadmap/core/widget/custom_bottom_navigation_bar.dart';
+import 'package:flutter_roadmap/features/courses/domain/entity/course.dart';
 import 'package:flutter_roadmap/features/sections/domain/entity/section.dart';
 import 'package:flutter_roadmap/features/sections/presentation/bloc/sections_bloc.dart';
 import 'package:flutter_roadmap/features/sections/presentation/widget/section_card.dart';
 import 'package:flutter_roadmap/features/sections/presentation/widget/shimmer_section_card.dart';
 
 class SectionsScreen extends StatelessWidget {
-  const SectionsScreen({super.key, required this.courseId});
-  final String courseId;
+  const SectionsScreen({super.key, required this.course});
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          getIt<SectionsBloc>()..add(GetSectionsEvent(courseId)),
-      child: SectionsView(courseId: courseId),
+          getIt<SectionsBloc>()..add(GetSectionsEvent(course.id)),
+      child: SectionsView(course: course),
     );
   }
 }
 
 class SectionsView extends StatefulWidget {
-  const SectionsView({super.key, required this.courseId});
+  const SectionsView({super.key, required this.course});
 
-  final String courseId;
-  
+  final Course course;
+
   @override
   State<SectionsView> createState() => _SectionsViewState();
 }
@@ -48,10 +49,10 @@ class _SectionsViewState extends State<SectionsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: CustomAppBar(title: 'Content'),
+      appBar: CustomAppBar(title: widget.course.title),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<SectionsBloc>().add(GetSectionsEvent(widget.courseId));
+          context.read<SectionsBloc>().add(GetSectionsEvent(widget.course.id));
         },
         child: BlocBuilder<SectionsBloc, SectionsState>(
           builder: (context, state) {
@@ -63,7 +64,14 @@ class _SectionsViewState extends State<SectionsView> {
                 itemBuilder: (context, index) {
                   return SectionCard(
                     onTap: () {
-                      Navigator.pushNamed(context, topicsScreen);
+                      Navigator.pushNamed(
+                        context,
+                        topicsScreen,
+                        arguments: {
+                          'course': widget.course,
+                          'section': state.sections[index],
+                        },
+                      );
                     },
                     onLongPress: () {
                       _onLongPress(
@@ -73,7 +81,7 @@ class _SectionsViewState extends State<SectionsView> {
                             context,
                             editSectionScreen,
                             arguments: {
-                              'course_id': widget.courseId,
+                              'course': widget.course,
                               'sections': state.sections,
                               'section': state.sections[index],
                             },
@@ -84,7 +92,7 @@ class _SectionsViewState extends State<SectionsView> {
                           context.read<SectionsBloc>().add(
                             DeleteSectionEvent(
                               state.sections[index].id,
-                              widget.courseId,
+                              widget.course.id,
                             ),
                           );
                         },
@@ -115,10 +123,7 @@ class _SectionsViewState extends State<SectionsView> {
                 Navigator.pushNamed(
                   context,
                   addSectionScreen,
-                  arguments: {
-                    'course_id': widget.courseId,
-                    'sections': sections,
-                  },
+                  arguments: {'course': widget.course, 'sections': sections},
                 );
               },
               child: Icon(Icons.add),
